@@ -11,7 +11,7 @@ import SwiftUI
 struct FiveLetterWordsApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            CharacterInputView()
         }
     }
 }
