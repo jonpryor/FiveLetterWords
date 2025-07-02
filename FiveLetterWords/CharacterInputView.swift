@@ -21,12 +21,20 @@ let appDocs = try! AttributedString(
 
 struct CharacterInputView: View {
     @State private var xmatches : [String] = []
-    @State private var xtemplate : [String] = ["", "", "", "", ""]
+    @State private var xtemplate : [String]
     @State private var documentationPopover : DocumentationPopoverModel?
     @FocusState private var showKeyboard : Bool
 
     init() {
-        print("# jonp: xtemplate has \(xtemplate.count) items")
+        var t = [String]()
+        for cp in template {
+            guard let c = cp else {
+                t.append("")
+                continue
+            }
+            t.append(String(c))
+        }
+        xtemplate = t
     }
 
     var body: some View {
