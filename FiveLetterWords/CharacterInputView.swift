@@ -8,11 +8,16 @@
 import SwiftUI
 
 let appDocsMarkdown = """
-    Do you ever have problems thinking of five letter words with letters in a given position?
+    Do you ever have problems thinking of words with letters in a given position, such as with
+    crossword puzzles?
+
+    Use **—** to shorten the length of words searched.  Use **+** to increase the length of words searched.
 
     Tap within one of the text boxes underneath **Letters**, enter a letter, then tap **Search**.
 
-    All words with letters in the given position are shown underneath **Matches**.
+    All words with the specified length and letters in the given position are shown underneath **Matches**.
+
+    Word list comes from macOS `/usr/share/dict/words`.
     """
 
 let appDocs = try! AttributedString(
@@ -62,6 +67,12 @@ struct CharacterInputView: View {
             Text("Letters")
                 .font(.title)
             HStack {
+                Button {
+                    removeTemplateCharacter()
+                } label: {
+                    Image(systemName: "minus")
+                        .imageScale(.large)
+                }
                 ForEach(0..<xtemplate.count, id:\.description) { index in
                     TextField("", text:$xtemplate[index])
                         .jonpSetCommon()
@@ -70,6 +81,12 @@ struct CharacterInputView: View {
                         .onSubmit {
                             _updateMatches(index: index, value: xtemplate[index])
                         }
+                }
+                Button {
+                    addTemplateCharacter()
+                } label: {
+                    Image(systemName: "plus")
+                        .imageScale(.large)
                 }
             }
             Spacer()
@@ -120,6 +137,19 @@ struct CharacterInputView: View {
     }
 
     private func didDismissDocs() {
+    }
+
+    private func removeTemplateCharacter() {
+        if xtemplate.count == 1 {
+            return
+        }
+        xtemplate.removeLast()
+        xtemplate = xtemplate
+    }
+
+    private func addTemplateCharacter() {
+        xtemplate.append("")
+        xtemplate = xtemplate
     }
 }
 
